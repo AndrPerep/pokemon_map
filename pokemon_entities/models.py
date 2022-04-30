@@ -2,10 +2,10 @@ from django.db import models  # noqa F401
 
 
 class Pokemon(models.Model):
-    title = models.TextField(verbose_name='Название')
-    title_en = models.TextField(null=True, blank=True, verbose_name='Английское название')
-    title_jp = models.TextField(null=True, blank=True, verbose_name='Японское название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    title = models.TextField(max_length=25, verbose_name='Название')
+    title_en = models.TextField(max_length=25, blank=True, verbose_name='Английское название')
+    title_jp = models.TextField(max_length=25, blank=True, verbose_name='Японское название')
+    description = models.TextField(max_length=700, blank=True, verbose_name='Описание')
     image = models.ImageField(null=True, blank=True, verbose_name='Картинка')
     previous_evolution = models.ForeignKey(
         'Pokemon',
@@ -13,14 +13,16 @@ class Pokemon(models.Model):
         null=True,
         blank=True,
         related_name='prev_pokemon',
-        verbose_name='Предыдущая эволюция')
+        verbose_name='Предыдущая эволюция'
+    )
     next_evolution = models.ForeignKey(
         'Pokemon',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='next_pokemon',
-        verbose_name='Следующая эволюция')
+        verbose_name='Следующая эволюция'
+    )
 
     def __str__(self):
         return self.title
